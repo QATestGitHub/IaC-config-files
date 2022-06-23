@@ -1,0 +1,30 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  name: integration-job
+  namespace: carbo-test
+spec:
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+      name: integration-job
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+        spec:
+          containers:
+          - image: 099588379832.dkr.ecr.us-west-2.amazonaws.com/carbo/cron-job:latest
+            name: integrations-feeds-job
+            env:
+              - name: INTEGRATION_API
+                value: 'http://carbo-prod-integrations-service.carbo-prod/api/public/v1/integrations/checkrepos'
+              - name: FEEDS_API
+                value: 'http://carbo-prod-vuln-feeds-service.carbo-prod/api/v1/cve/update'
+            resources: {}
+            imagePullPolicy: Always
+          restartPolicy: OnFailure
+  schedule: '0 20 */2 * *'
+  concurrencyPolicy: Forbid
+status: {}
