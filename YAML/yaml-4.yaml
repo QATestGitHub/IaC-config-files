@@ -1,0 +1,95 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: carbo-test-ui-deployment
+  namespace: "carbo-test"
+  labels:
+    app: carbo-test-ui
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: carbo-test-ui
+  template:
+    metadata:
+      labels:
+        app: carbo-test-ui
+    spec:
+      securityContext:
+        fsGroup: 412
+      containers:
+        - name: carbo-test-ui
+          image: web-ui:latest
+          env:
+            - name: DB_DRIVER
+              value: "com.mysql.jdbc.Driver"
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: test-secret
+                  key: db-url-no-tracing
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: test-secret
+                  key: db-user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: test-secret
+                  key: db-password
+          ports:
+            - name: http
+              containerPort: 80
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 80
+            # failureThreshold: 25
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 80
+            # failureThreshold: 25
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "/bin/sh",
+                    "-c",
+                    "java -jar /usr/share/post-exec/target/lifecycle-hook.jar;",
+                  ]
+          volumeMounts:
+            - name: lifecycle-storage
+              mountPath: /usr/share/post-exec
+          resources:
+            limits:
+              cpu: 2
+              memory: 3G
+            requests:
+              cpu: 1
+              memory: 1G
+      volumes:
+        - name: lifecycle-storage
+          persistentVolumeClaim:
+            claimName: efs-lifecycle-claim
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: carbo-test-ui
+              topologyKey: kubernetes.io/hostname
