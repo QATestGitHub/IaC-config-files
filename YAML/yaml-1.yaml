@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  docker:
+    image: win-dockerapi:latest
+    environment: 
+      # - DOCKER_HOST=tcp://192.168.99.90:2376
+      # - DOCKER_TLS_VERIFY=1 
+      # - DOCKER_CERT_PATH=/Users/jaysonsantos/.docker/machine/machines
+      - DOCKER_HOST=npipe:////./pipe/docker_engine
+    ports:
+      - '8090:8080'
+    # user: Administrator
+    volumes:
+      - type: npipe
+        source: \\.\pipe\docker_engine
+        target: \\.\pipe\docker_engine
+      # - type: bind
+      #   source: C:/carbonetes/containers
+      #   target: C:/carbonetes/containers
