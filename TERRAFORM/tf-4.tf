@@ -1,7 +1,7 @@
 # EC2 INSTANCES
 resource "aws_instance" "nagios" {
     ami                    = "ami-0c02fb55956c7d316"
-    instance_type          = "t2.micro"
+    instance_type          = "t2.micro-test"
     subnet_id              = aws_subnet.sn_vpc10_public.id
     vpc_security_group_ids = [aws_security_group.sg_vpc10_public.id]
 	user_data = <<-EOF
