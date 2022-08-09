@@ -1,6 +1,6 @@
-FROM nginx:1.20.1
+FROM nginx:1.20.2
 
-LABEL Name=healthz-nginx Version=1.20.1
+LABEL Name=healthz-nginx Version=1.20.2
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY app.conf /etc/nginx/conf.d/
