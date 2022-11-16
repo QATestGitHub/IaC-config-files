@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   creationTimestamp: null
   name: integration-job
-  namespace: carbo-test
+  namespace: carbo-test-QA
 spec:
   jobTemplate:
     metadata:
