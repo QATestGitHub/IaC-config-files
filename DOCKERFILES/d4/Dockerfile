@@ -1,7 +1,7 @@
 FROM nginx:1.20.1
 
 LABEL Name=healthz-nginx Version=1.20.1
-
+test
 RUN rm -rf /etc/nginx/conf.d/default.conf
 COPY app.conf /etc/nginx/conf.d/
 COPY healthz /usr/share/nginx/html 
