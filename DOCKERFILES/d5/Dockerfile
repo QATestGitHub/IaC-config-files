@@ -11,6 +11,8 @@ COPY bashrc /root/.bashrc
 
 ENTRYPOINT ["sleep", "infinity"]
 
+#TEST
+
 
 
 
