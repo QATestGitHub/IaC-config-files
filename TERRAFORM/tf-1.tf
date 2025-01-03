@@ -4,4 +4,5 @@ ami = "ami-0b69ea66ff739e80"
 	tags {
 		Name = "EC2_Instance_Terraform"
 	}
+logging = true
 }
