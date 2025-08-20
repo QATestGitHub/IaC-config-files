@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namespaceName": { "type": "string", "defaultValue": "testeventhubns" },
+    "eventHubName": { "type": "string", "defaultValue": "testeventhub" },
+    "location": { "type": "string", "defaultValue": "[resourceGroup().location]" }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.EventHub/namespaces",
+      "apiVersion": "2023-01-01-preview",
+      "name": "[parameters('namespaceName')]",
+      "location": "[parameters('location')]",
+      "sku": { "name": "Basic", "tier": "Basic" },
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.EventHub/namespaces/eventhubs",
+      "apiVersion": "2023-01-01-preview",
+      "name": "[format('{0}/{1}', parameters('namespaceName'), parameters('eventHubName'))]",
+      "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', parameters('namespaceName'))]"],
+      "properties": {}
+    }
+  ]
+}
