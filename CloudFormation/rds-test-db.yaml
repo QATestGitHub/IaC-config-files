@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  TestDBInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceClass: db.t3.micro
+      Engine: MySQL
+      MasterUsername: testuser
+      MasterUserPassword: testpassword123
+      AllocatedStorage: 20
