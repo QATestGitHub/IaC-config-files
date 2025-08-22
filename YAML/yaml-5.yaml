@@ -86,7 +86,7 @@ spec:
   ports:
     - port: 9100
       targetPort: 9100
-      protocol: TCP
+      protocol: TCPtest
       name: metrics
   selector:
     app.kubernetes.io/name: gke-prometheus-node-exporter
