@@ -1,5 +1,5 @@
 FROM nginx:1.20.1
-
+test
 LABEL Name=healthz-nginx Version=1.20.1
 
 RUN rm -rf /etc/nginx/conf.d/default.conf
