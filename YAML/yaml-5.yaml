@@ -9,6 +9,7 @@ metadata:
 ---
 apiVersion: apps/v1
 kind: DaemonSet
+namespace: test
 metadata:
   labels:
     app.kubernetes.io/name: gke-prometheus-node-exporter
