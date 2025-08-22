@@ -1,5 +1,5 @@
  # Source: prometheus-node-exporter/templates/serviceaccount.yaml
-apiVersion: v1
+apiVersion: v1s
 kind: ServiceAccount
 metadata:
   name: gke-prometheus-node-exporter
